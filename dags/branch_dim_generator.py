@@ -19,7 +19,8 @@ output_file = './branch_dim_large_data.csv'
 
 # List of sample UK cities and regions for realistic data generation
 cities = ["London", "Manchester", "Birmingham", "Glasgow", "Edinburgh"]
-regions = ["London", "Greater Manchester", "West Midlands", "Scotland", "Scotland"]
+regions = ["London", "Greater Manchester",
+           "West Midlands", "Scotland", "Scotland"]
 postcodes = ["EC1A 1BB", "M1 1AE", "B1 1AA", "G1 1AA", "EH1 1AA"]
 
 
@@ -34,8 +35,10 @@ def generate_random_data(row_num):
 
     # Generate opening date in milliseconds
     now = datetime.now()
-    random_date = now - timedelta(days=random.randint(0, 3650))  # Random date within the last 10 years
-    opening_date_millis = int(random_date.timestamp() * 1000)  # Convert to milliseconds since epoch
+    # Random date within the last 10 years
+    random_date = now - timedelta(days=random.randint(0, 3650))
+    # Convert to milliseconds since epoch
+    opening_date_millis = int(random_date.timestamp() * 1000)
 
     return branch_id, branch_name, branch_address, city, region, postcode, opening_date_millis
 
@@ -78,7 +81,8 @@ def generate_branch_dim_data():
     # Save DataFrame to CSV
     df.to_csv(output_file, index=False)
 
-    print(f"CSV file '{output_file}' with {num_rows} rows has been generated successfully.")
+    print(
+        f"CSV file '{output_file}' with {num_rows} rows has been generated successfully.")
 
 
 with DAG('branch_dim_generator',

@@ -41,7 +41,8 @@ def generate_random_data(row_num):
 def generate_account_dim_data():
     row_num = 1
     while row_num <= num_rows:
-        account_id, account_type, status, customer_id, balance, opening_date_millis = generate_random_data(row_num)
+        account_id, account_type, status, customer_id, balance, opening_date_millis = generate_random_data(
+            row_num)
         account_ids.append(account_id)
         account_types.append(account_type)
         statuses.append(status)
@@ -61,14 +62,16 @@ def generate_account_dim_data():
 
     df.to_csv(output_file, index=False)
 
-    print(f'CSV file {output_file} with {num_rows} rows has been generated successfully!')
+    print(
+        f'CSV file {output_file} with {num_rows} rows has been generated successfully!')
+
 
 with DAG('account_dim_generator',
-    default_args=defaultargs,
-    description='Generate large account dimension data in a CSV file',
-    schedule_interval=timedelta(days=1),
-    start_date=start_date,
-    tags=['schema'])as dag:
+         default_args=defaultargs,
+         description='Generate large account dimension data in a CSV file',
+         schedule_interval=timedelta(days=1),
+         start_date=start_date,
+         tags=['schema'])as dag:
 
     start = EmptyOperator(
         task_id='start_task'

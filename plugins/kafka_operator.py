@@ -19,14 +19,19 @@ class KafkaProduceOperator(BaseOperator):
         self.num_records = num_records
 
     def generate_transaction_data(self, row_num):
-        customer_ids = [f"C{str(i).zfill(5)}" for i in range(1, self.num_records+1)]
-        account_ids = [f"A{str(i).zfill(5)}" for i in range(1, self.num_records + 1)]
-        branch_ids = [f"B{str(i).zfill(5)}" for i in range(1, self.num_records + 1)]
-        transaction_types = ['Credit', 'Debit', 'Transfer', 'Withdrawal', 'Deposit']
+        customer_ids = [f"C{str(i).zfill(5)}" for i in range(
+            1, self.num_records+1)]
+        account_ids = [f"A{str(i).zfill(5)}" for i in range(
+            1, self.num_records + 1)]
+        branch_ids = [f"B{str(i).zfill(5)}" for i in range(
+            1, self.num_records + 1)]
+        transaction_types = ['Credit', 'Debit',
+                             'Transfer', 'Withdrawal', 'Deposit']
         currencies = ['USD', 'GBP', 'EUR']
 
         transaction_id = f'T{str(row_num).zfill(6)}'
-        transaction_date = int((datetime.now() - timedelta(days=random.randint(0, 365))).timestamp() * 1000)
+        transaction_date = int(
+            (datetime.now() - timedelta(days=random.randint(0, 365))).timestamp() * 1000)
         account_id = random.choice(account_ids)
         customer_id = random.choice(customer_ids)
         transaction_type = random.choice(transaction_types)
@@ -61,4 +66,5 @@ class KafkaProduceOperator(BaseOperator):
             self.log.info(f'Sent transaction: {transaction}')
 
         producer.flush()
-        self.log.info(f'{self.num_records} transaction records has been sent to kafka topic {self.kafka_topic}!')
+        self.log.info(
+            f'{self.num_records} transaction records has been sent to kafka topic {self.kafka_topic}!')

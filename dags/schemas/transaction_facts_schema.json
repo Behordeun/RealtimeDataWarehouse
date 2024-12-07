@@ -41,7 +41,7 @@
         "name": "transaction_date",
         "dataType": "TIMESTAMP",
         "format": "1:MILLISECONDS:EPOCH",
-        "granularity": "1:<ILLISECONDS"
+        "granularity": "1:MILLISECONDS"
     }
   ]
 }

@@ -29,8 +29,10 @@ def generate_random_data(row_num):
 
     # Generate timestamp with milliseconds
     now = datetime.now()
-    random_date = now - timedelta(days=random.randint(0, 3650))  # Random date within the last 10 years
-    registration_date_millis = int(random_date.timestamp() * 1000)  # Convert to milliseconds
+    # Random date within the last 10 years
+    random_date = now - timedelta(days=random.randint(0, 3650))
+    registration_date_millis = int(
+        random_date.timestamp() * 1000)  # Convert to milliseconds
 
     return customer_id, first_name, last_name, email, phone_number, registration_date_millis
 
@@ -70,7 +72,8 @@ def generate_customer_dim_data():
     # Save DataFrame to CSV
     df.to_csv(output_file, index=False)
 
-    print(f"CSV file '{output_file}' with {num_rows} rows has been generated successfully.")
+    print(
+        f"CSV file '{output_file}' with {num_rows} rows has been generated successfully.")
 
 
 # Initialize lists to store data

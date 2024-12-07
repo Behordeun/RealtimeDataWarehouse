@@ -21,10 +21,10 @@
             "streamConfigMaps": {
                 "realtime.segment.flush.threshold.rows": "5000",
                 "stream.kafka.decoder.prop.format": "JSON",
-                "key.serializer": "org.apache.kafka.common.serialization.StringSerializer",
+                "key.serializer": "org.apache.kafka.common.serialization.ByteArraySerializer",
                 "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
                 "streamType": "kafka",
-                "value.serializer": "org.apache.kafka.common.serialization.StringDeserializer",
+                "value.serializer": "org.apache.kafka.common.serialization.ByteArraySerializer",
                 "stream.kafka.consumer.type": "LOWLEVEL",
                 "realtime.segment.flush.segment.rows": "5000",
                 "stream.kafka.broker.list": "kafka_broker:9092",
