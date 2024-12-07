@@ -25,5 +25,10 @@
         "name": "registration_date",
         "dataType": "TIMESTAMP"
     }
+  ],
+  "metricFieldSpecs": [
+    {
+      
+    }
   ]
 }

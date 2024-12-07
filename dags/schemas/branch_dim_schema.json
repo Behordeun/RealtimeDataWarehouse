@@ -29,5 +29,10 @@
         "name": "opening_date",
         "dataType": "TIMESTAMP"
     }
+  ],
+  "metricFieldSpecs": [
+    {
+      
+    }
   ]
 }
