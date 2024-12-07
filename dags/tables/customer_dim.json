@@ -1,0 +1,26 @@
+{
+    "tableName": "customer_dim",
+    "tableType": "OFFLINE",
+    "segmentConfig": {
+        "replication": 1,
+        "schemaName": "customer_dim"
+    },
+    "tenants": {
+        "broker": "DefaultTenant",
+        "server": "DefaultTenant"
+    },
+    "tableIndexConfig": {
+        "loadMode": "MMAP",
+        "invertedIndexColumns": ["first_name", "last_name", "email"],
+        "sortedColumns": ["customer_id"]
+    },
+    "ingestionConfig": {
+        "batchIngestionConfig": {
+            "segmentIngestionType": "APPEND",
+            "segmentIngestionFrequency": "DAILY"
+        }
+    },
+    "metadata": {
+        "customConfigs": {}
+    }
+}
