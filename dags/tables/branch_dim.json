@@ -1,7 +1,7 @@
 {
     "tableName": "branch_dim",
     "tableType": "OFFLINE",
-    "segmentConfig": {
+    "segmentsConfig": {
         "replication": 1,
         "schemaName": "branch_dim"
     },

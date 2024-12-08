@@ -10,8 +10,8 @@
       "dataType": "STRING"
     },
     {
-        "name": "last_name",
-        "dataType": "STRING"
+      "name": "last_name",
+      "dataType": "STRING"
     },
     {
       "name": "email",
@@ -20,10 +20,15 @@
     {
       "name": "phone_number",
       "dataType": "STRING"
-    },
+    }
+  ],
+  "dateTimeFieldSpec": [
     {
-        "name": "registration_date",
-        "dataType": "TIMESTAMP"
+
+      "name": "registration_date",
+      "dataType": "TIMESTAMP",
+      "format": "1:MILLISECONDS:EPOCH",
+      "granularity": "1:DAYS"
     }
   ]
 }

@@ -1,9 +1,10 @@
 {
     "tableName": "customer_dim",
     "tableType": "OFFLINE",
-    "segmentConfig": {
+    "segmentsConfig": {
         "replication": 1,
-        "schemaName": "customer_dim"
+        "schemaName": "customer_dim",
+        "timeColumnName": "registration_date"
     },
     "tenants": {
         "broker": "DefaultTenant",
