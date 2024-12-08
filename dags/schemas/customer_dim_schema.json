@@ -22,9 +22,8 @@
       "dataType": "STRING"
     }
   ],
-  "dateTimeFieldSpec": [
+  "dateTimeFieldSpecs": [
     {
-
       "name": "registration_date",
       "dataType": "TIMESTAMP",
       "format": "1:MILLISECONDS:EPOCH",
