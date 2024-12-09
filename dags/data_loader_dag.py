@@ -53,6 +53,16 @@ with DAG(
             '"http://pinot-controller:9000/ingestFromFile?tableNameWithType=customer_dim_OFFLINE&batchConfigMapStr=%7B%22inputFormat%22%3A%22csv%22%2C%22recordReader.prop.delimiter%22%3A%22%2C%22%7D"'
         )
     )
+    
+    # Task to create the Pinot table for account_dim_OFFLINE
+    create_account_dim_table = BashOperator(
+        task_id='create_account_dim_table',
+        bash_command=(
+            'curl -X POST -H "Content-Type: application/json" '
+            '-d @/opt/airflow/dags/tables/account_dim.json '
+            '"http://pinot-controller:9000/tables"'
+        )
+    )
 
     # Task to ingest account_dim_large_data.csv into account_dim_OFFLINE
     ingest_account_dim = BashOperator(
@@ -85,5 +95,7 @@ with DAG(
     )
 
     # Define task dependencies
+    # Customer dimension ingestion must complete before proceeding to account dimension ingestion
     check_customer_dim_file >> create_customer_dim_table >> ingest_customer_dim
-    ingest_customer_dim >> ingest_account_dim >> ingest_branch_dim
+    ingest_customer_dim >> create_account_dim_table >> ingest_account_dim
+    ingest_account_dim >> create_branch_dim_table >> ingest_branch_dim
