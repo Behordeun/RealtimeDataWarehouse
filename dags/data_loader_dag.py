@@ -1,7 +1,6 @@
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
-from kafka_operator import KafkaProduceOperator
 from datetime import datetime, timedelta
 import os
 
@@ -25,7 +24,7 @@ def check_file_exists(file_path):
 with DAG(
     dag_id='dimension_batch_ingestion',
     default_args=default_args,
-    description='A DAG to ingest dimension data into Apache Pinot and produce data into Kafka',
+    description='A DAG to ingest dimension data into Apache Pinot',
     schedule_interval='@daily',
     catchup=False,
 ) as dag:
@@ -97,36 +96,7 @@ with DAG(
         )
     )
 
-    # Task to create the Pinot table for transaction_facts (REALTIME)
-    create_transaction_facts_table = BashOperator(
-        task_id='create_transaction_facts_table',
-        bash_command=(
-            'curl -X POST -H "Content-Type: application/json" '
-            '-d @/opt/airflow/dags/tables/transaction_facts.json '
-            '"http://pinot-controller:9000/tables"'
-        )
-    )
-
-    # Task to validate the creation of the transaction_facts table
-    validate_transaction_facts_table = BashOperator(
-        task_id='validate_transaction_facts_table',
-        bash_command=(
-            'curl -X GET "http://pinot-controller:9000/tables/transaction_facts" '
-            '|| { echo "Validation failed: transaction_facts table does not exist."; exit 1; }'
-        )
-    )
-
-    # Task to generate and send transaction data to the Kafka topic
-    produce_transaction_data = KafkaProduceOperator(
-        task_id='produce_transaction_data',
-        kafka_broker='kafka_broker:9092',
-        kafka_topic='transaction_facts',
-        num_records=1000  # Number of records to produce
-    )
-
     # Define task dependencies
     check_customer_dim_file >> create_customer_dim_table >> ingest_customer_dim
     ingest_customer_dim >> create_account_dim_table >> ingest_account_dim
     ingest_account_dim >> create_branch_dim_table >> ingest_branch_dim
-    ingest_branch_dim >> create_transaction_facts_table >> validate_transaction_facts_table
-    validate_transaction_facts_table >> produce_transaction_data
