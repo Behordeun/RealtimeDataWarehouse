@@ -18,27 +18,33 @@
   },
   "ingestionConfig": {
     "streamIngestionConfig": {
-        "streamConfigMaps": [
-            {
-                "streamType": "kafka",
-                "stream.kafka.topic.name": "transaction_facts",
-                "stream.kafka.broker.list": "kafka_broker:9092",
-                "stream.kafka.consumer.type": "LOWLEVEL",
-                "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
-                "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
-                "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
-                "key.serializer": "org.apache.kafka.common.serialization.ByteArraySerializer",
-                "value.serializer": "org.apache.kafka.common.serialization.ByteArraySerializer",
-                "realtime.segment.flush.threshold.rows": "5000",
-                "realtime.segment.flush.segment.rows": "5000",
-                "stream.segment.flush.threshold.time": "3600000"
-            }
-        ]
+      "streamConfigMaps": [
+        {
+          "streamType": "kafka",
+          "stream.kafka.topic.name": "transaction_facts",
+          "stream.kafka.broker.list": "kafka_broker:9092",
+          "stream.kafka.consumer.type": "LOWLEVEL",
+          "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+          "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+          "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
+          "key.serializer": "org.apache.kafka.common.serialization.ByteArraySerializer",
+          "value.serializer": "org.apache.kafka.common.serialization.ByteArraySerializer",
+          "realtime.segment.flush.segment.rows": "50000",
+          "stream.segment.flush.threshold.time": "3600000"
+        }
+      ]
     },
-    "transformConfigs": [],
-    "continueOnError": true,
-    "rowTimeValueCheck": true,
-    "segmentTypeValueCheck": false
+    "transformConfigs": [
+      {
+        "columnName": "account_id",
+        "transformFunction": "jsonPathString(message, '$.account_id')"
+      },
+      {
+        "columnName": "customer_id",
+        "transformFunction": "jsonPathString(message, '$.customer_id')"
+      }
+    ],
+    "continueOnError": true
   },
   "metadata": {
     "customConfigs": {}
