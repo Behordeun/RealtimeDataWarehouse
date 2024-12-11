@@ -34,17 +34,10 @@
         }
       ]
     },
-    "transformConfigs": [
-      {
-        "columnName": "account_id",
-        "transformFunction": "jsonPathString(message, '$.account_id')"
-      },
-      {
-        "columnName": "customer_id",
-        "transformFunction": "jsonPathString(message, '$.customer_id')"
-      }
-    ],
-    "continueOnError": true
+    "transformConfigs": [],
+    "continueOnError": true,
+    "rowTimeValueCheck": true,
+    "segmentTimeValueCheck": true
   },
   "metadata": {
     "customConfigs": {}
